@@ -7,8 +7,9 @@ interface BookProps {
 const Book = (props: BookProps) => {
 
     return (
-        <View className='h-[220px] w-[120px] flex flex-column'>
-            <Image source={{ uri: props.coverUrl }} style={{width: 80, height: 100}}></Image>
+
+        <View className='mx-2 flex flex-column'>
+            <Image source={{ uri: props.coverUrl }} className="rounded" style={{width: 80, height: 130}}></Image>
         </View>
     );
 
