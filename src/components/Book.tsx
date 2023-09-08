@@ -9,7 +9,7 @@ const Book = (props: BookProps) => {
     return (
 
         <View className='mx-2 flex flex-column'>
-            <Image source={{ uri: props.coverUrl }} className="rounded" style={{width: 80, height: 130}}></Image>
+            <Image source={{ uri: props.coverUrl }} className="rounded" style={{width: 90, height: 130}}></Image>
         </View>
     );
 
