@@ -6,7 +6,7 @@ import api from "../services/api";
 import { BookType, initValue } from "../types/BookType";
 import { AppNavigationType } from "../types/AppNavigationType";
 
-const Details = (props: AppNavigationType) => {
+const Reserve = (props: AppNavigationType) => {
 
     const [book, setBook] = useState<BookType>(initValue);
 
@@ -46,10 +46,10 @@ const Details = (props: AppNavigationType) => {
                 </Text>
             </View>
 
-            <Button name="LER"></Button>
+            <Button name="RESERVAR"></Button>
             
         </View>
     );
 };
 
-export default Details;
+export default Reserve;

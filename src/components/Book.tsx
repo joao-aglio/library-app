@@ -1,10 +1,10 @@
-import { Image, Text, View, TouchableOpacity, GestureResponderEvent } from 'react-native';
+import { Image, TouchableOpacity, GestureResponderEvent } from 'react-native';
+import { ImagePickerResult } from 'expo-image-picker';
 
 interface BookProps {
     coverUrl: string,
     className?: string,
     onPress?: (event: GestureResponderEvent) => void
-
 };
 
 const Book = (props: BookProps) => {

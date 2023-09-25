@@ -7,8 +7,16 @@ import Book from '../screens/BookCreate';
 import Category from '../screens/Category';
 import Publisher from '../screens/Publisher';
 import Login from '../screens/Login';
+import Reserve from '../screens/Reserve';
+import { createStackNavigator } from '@react-navigation/stack';
 
 const Tab = createBottomTabNavigator();
+
+const Stack = () => {
+    const Stack = createStackNavigator();
+    
+
+}
 
 const AppTab = () => {
 
@@ -48,6 +56,12 @@ const AppTab = () => {
             }} />
 
             <Tab.Screen name="Publisher" component={Publisher} options={{
+                tabBarIcon: ({ color, size }) => (
+                    <Ionicons name="attach" color={color} size={size} />
+                )
+            }} />
+
+            <Tab.Screen name="Reserve" component={Reserve} options={{
                 tabBarIcon: ({ color, size }) => (
                     <Ionicons name="attach" color={color} size={size} />
                 )

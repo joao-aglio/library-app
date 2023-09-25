@@ -3,13 +3,9 @@ import Book from '../components/Book';
 import BookDetails from '../components/BookDetails';
 import { useEffect, useState } from 'react';
 import api from '../services/api';
-import { NavigationProp } from '@react-navigation/native';
+import { AppNavigationType } from "../types/AppNavigationType";
 
-interface HomeProps {
-    navigation?: NavigationProp<any,any>;
-}
-
-const Home = (props: HomeProps) => {
+const Home = (props: AppNavigationType) => {
 
     const [books, setBooks] = useState([]);
 
@@ -18,7 +14,6 @@ const Home = (props: HomeProps) => {
             .then((res) => {
                 setBooks(res.data.data);
             });
-
     }, []);
 
     return (
@@ -31,7 +26,7 @@ const Home = (props: HomeProps) => {
                 <View className='flex flex-nowrap flex-row py-2'>
 
                     {books.map((book: any) => (
-                        <Book onPress={() => {props.navigation.navigate('Details')}} coverUrl={book.image_url} />
+                        <Book onPress={() => {props.navigation.navigate('Details', { id: book.id })}} coverUrl={book.image_url} />
                     ))}
 
                 </View>
@@ -42,7 +37,7 @@ const Home = (props: HomeProps) => {
 
                 <Text className='ml-3 text-xl mb-3'>Livros disponíveis</Text>
                 {books.map((book: any) => (
-                    <BookDetails onPress={() => {props.navigation.navigate('Details')}} author={book.author} title={book.name} category={book.category.description} coverUrl={book.image_url} />
+                    <BookDetails onPress={() => {props.navigation.navigate('Reserve', { id: book.id }) }} author={book.author} title={book.name} category={book.category.description} coverUrl={book.image_url} />
                 ))}
 
             </View>
