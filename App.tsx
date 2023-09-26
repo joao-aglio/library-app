@@ -1,4 +1,4 @@
-import AppStack from "./src/components/Navigation";
+import Stack from "./src/components/Navigation";
 import { NavigationContainer } from "@react-navigation/native";
 
 import { NativeWindStyleSheet } from "nativewind";
@@ -11,7 +11,7 @@ export default function App() {
 
   return (
     <NavigationContainer>
-      <AppStack />
+      <Stack />
     </NavigationContainer>
   );
 

@@ -9,12 +9,53 @@ import Publisher from '../screens/Publisher';
 import Login from '../screens/Login';
 import Reserve from '../screens/Reserve';
 import { createStackNavigator } from '@react-navigation/stack';
+import api from '../services/api';
+import { useState, useEffect } from 'react';
 
 const Tab = createBottomTabNavigator();
 
 const Stack = () => {
+
+    useEffect(() =>{
+        checkAuth();
+    })
+
+    const [isLogged, setIsLogged] = useState<boolean>(false);
+
+    function checkAuth(){
+        api.get('auth')
+        .then(res => {
+            setIsLogged(true);
+        })
+        .catch(err => {
+            setIsLogged(false);
+        }); 
+    }
+
     const Stack = createStackNavigator();
-    
+
+    return (
+        <Stack.Navigator screenOptions={{
+            headerTitle: () => (
+                <Image source={{ uri: "https://cdn-icons-png.flaticon.com/512/212/212807.png" }}
+                    style={{ width: 40, height: 40 }} />
+            ),
+        }}>
+            {isLogged ? (
+                <>
+                    <Stack.Screen name="Tab" component={AppTab}></Stack.Screen>
+                    <Stack.Screen name="Category" component={Category} />
+                    <Stack.Screen name="Publisher" component={Publisher} />
+                    <Stack.Screen name="Reserve" component={Reserve} />
+                    <Stack.Screen name="Book" component={Book} />
+                    <Stack.Screen name="Details" component={Details} />
+                </>
+            ) : (
+                <Stack.Screen name="Login" component={Login}></Stack.Screen>
+            )}
+
+        </Stack.Navigator>
+    );
 
 }
 
@@ -22,18 +63,12 @@ const AppTab = () => {
 
     return (
         <Tab.Navigator screenOptions={{
-            headerTitle: () => (<Image source={{ uri: "https://cdn-icons-png.flaticon.com/512/212/212807.png" }} style={{ width: 40, height: 40 }} />),
             tabBarShowLabel: false,
+            headerShown: false
         }}>
             <Tab.Screen name="Home" component={Home} options={{
                 tabBarIcon: ({ color, size }) => (
                     <Ionicons name="home" color={color} size={size} />
-                )
-            }} />
-
-            <Tab.Screen name="Details" component={Details} options={{
-                tabBarIcon: ({ color, size }) => (
-                    <Ionicons name="list" color={color} size={size} />
                 )
             }} />
 
@@ -43,32 +78,8 @@ const AppTab = () => {
                 )
             }} />
 
-            <Tab.Screen name="Book" component={Book} options={{
-                tabBarIcon: ({ color, size }) => (
-                    <Ionicons name="book" color={color} size={size} />
-                )
-            }} />
-
-            <Tab.Screen name="Category" component={Category} options={{
-                tabBarIcon: ({ color, size }) => (
-                    <Ionicons name="list-circle" color={color} size={size} />
-                )
-            }} />
-
-            <Tab.Screen name="Publisher" component={Publisher} options={{
-                tabBarIcon: ({ color, size }) => (
-                    <Ionicons name="attach" color={color} size={size} />
-                )
-            }} />
-
-            <Tab.Screen name="Reserve" component={Reserve} options={{
-                tabBarIcon: ({ color, size }) => (
-                    <Ionicons name="attach" color={color} size={size} />
-                )
-            }} />
-
         </Tab.Navigator>
     )
 }
 
-export default AppTab;
+export default Stack;

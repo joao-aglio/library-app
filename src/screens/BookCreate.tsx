@@ -30,8 +30,8 @@ const BookCreate = (props: BookProps) => {
 
         data.append("publish_date", '2022-02-02');
 
-        api.post('books', data).
-            then((res) => {
+        api.post('books', data)
+            .then((res) => {
                 alert("Cadastrado com sucesso!");
             })
             .catch((err) => {

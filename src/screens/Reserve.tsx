@@ -9,6 +9,14 @@ import { AppNavigationType } from "../types/AppNavigationType";
 const Reserve = (props: AppNavigationType) => {
 
     const [book, setBook] = useState<BookType>(initValue);
+    
+    function handleClick(id: number){
+        api.post("reserves", { books: [id]})
+        .then(res => {
+            alert("Livro reservado com sucesso!");
+            props.navigation.navigate("Home");
+        })
+    }
 
     useEffect(() =>{
 
@@ -46,7 +54,7 @@ const Reserve = (props: AppNavigationType) => {
                 </Text>
             </View>
 
-            <Button name="RESERVAR"></Button>
+            <Button onPress={(e) => { handleClick(props.route.params.id) }} name="RESERVAR"></Button>
             
         </View>
     );

@@ -1,20 +1,29 @@
 import { Text, View } from 'react-native';
 import Book from '../components/Book';
 import BookDetails from '../components/BookDetails';
-import { useEffect, useState } from 'react';
+import { useCallback, useState } from 'react';
 import api from '../services/api';
 import { AppNavigationType } from "../types/AppNavigationType";
+import { useFocusEffect } from '@react-navigation/native';
 
 const Home = (props: AppNavigationType) => {
 
     const [books, setBooks] = useState([]);
+    const [reserves, setReserves] = useState([]);
 
-    useEffect(() => {
-        api.get("books")
-            .then((res) => {
-                setBooks(res.data.data);
-            });
-    }, []);
+    useFocusEffect(
+        useCallback(() => {
+            api.get("books")
+                .then((res) => {
+                    setBooks(res.data.data);
+                });
+
+            api.get("reserves")
+                .then((res) => {
+                    setReserves(res.data.mybooks);
+                });
+        }, [])
+    );
 
     return (
 
@@ -25,8 +34,8 @@ const Home = (props: AppNavigationType) => {
 
                 <View className='flex flex-nowrap flex-row py-2'>
 
-                    {books.map((book: any) => (
-                        <Book onPress={() => {props.navigation.navigate('Details', { id: book.id })}} coverUrl={book.image_url} />
+                    {reserves.map((reserve: any) => (
+                        <Book onPress={() => { props.navigation.navigate('Details', { id: reserve.id }) }} coverUrl={reserve.image_url} />
                     ))}
 
                 </View>
@@ -37,7 +46,7 @@ const Home = (props: AppNavigationType) => {
 
                 <Text className='ml-3 text-xl mb-3'>Livros disponíveis</Text>
                 {books.map((book: any) => (
-                    <BookDetails onPress={() => {props.navigation.navigate('Reserve', { id: book.id }) }} author={book.author} title={book.name} category={book.category.description} coverUrl={book.image_url} />
+                    <BookDetails onPress={() => { props.navigation.navigate('Reserve', { id: book.id }) }} author={book.author} title={book.name} category={book.category.description} coverUrl={book.image_url} />
                 ))}
 
             </View>
