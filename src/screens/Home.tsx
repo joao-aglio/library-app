@@ -1,4 +1,4 @@
-import { Text, View } from 'react-native';
+import { Text, View, ScrollView } from 'react-native';
 import Book from '../components/Book';
 import BookDetails from '../components/BookDetails';
 import { useCallback, useState } from 'react';
@@ -32,23 +32,23 @@ const Home = (props: AppNavigationType) => {
             <View className='flex mb-8 flex-column bg-[#c4537c] py-3'>
                 <Text className='text-xl ml-3 text-[#fffae4]'>Meus Livros</Text>
 
-                <View className='flex flex-nowrap flex-row py-2'>
+                <ScrollView horizontal={true} className='flex flex-nowrap flex-row py-2'>
 
                     {reserves.map((reserve: any) => (
                         <Book onPress={() => { props.navigation.navigate('Details', { id: reserve.id }) }} coverUrl={reserve.image_url} />
                     ))}
 
-                </View>
+                </ScrollView>
 
             </View>
 
             <View className='flex mx-3 flex-column justify-center py-2 rounded-xl flex-wrap bg-[#c2eef8]'>
-
-                <Text className='ml-3 text-xl mb-3'>Livros disponíveis</Text>
-                {books.map((book: any) => (
-                    <BookDetails onPress={() => { props.navigation.navigate('Reserve', { id: book.id }) }} author={book.author} title={book.name} category={book.category.description} coverUrl={book.image_url} />
-                ))}
-
+                <ScrollView>
+                    <Text className='ml-3 text-xl mb-3'>Livros disponíveis</Text>
+                    {books.map((book: any) => (
+                        <BookDetails onPress={() => { props.navigation.navigate('Reserve', { id: book.id }) }} author={book.author} title={book.name} category={book.category.description} coverUrl={book.image_url} />
+                    ))}
+                </ScrollView>
             </View>
         </View>
 

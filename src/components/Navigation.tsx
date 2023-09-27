@@ -3,7 +3,7 @@ import Home from '../screens/Home';
 import { Ionicons } from '@expo/vector-icons';
 import { Image } from 'react-native';
 import Details from '../screens/Details';
-import Book from '../screens/BookCreate';
+import BookCreate from '../screens/BookCreate';
 import Category from '../screens/Category';
 import Publisher from '../screens/Publisher';
 import Login from '../screens/Login';
@@ -11,6 +11,8 @@ import Reserve from '../screens/Reserve';
 import { createStackNavigator } from '@react-navigation/stack';
 import api from '../services/api';
 import { useState, useEffect } from 'react';
+import User from '../screens/User';
+import Gerenciamento from '../screens/Gerenciamento';
 
 const Tab = createBottomTabNavigator();
 
@@ -47,8 +49,9 @@ const Stack = () => {
                     <Stack.Screen name="Category" component={Category} />
                     <Stack.Screen name="Publisher" component={Publisher} />
                     <Stack.Screen name="Reserve" component={Reserve} />
-                    <Stack.Screen name="Book" component={Book} />
+                    <Stack.Screen name="Book" component={BookCreate} />
                     <Stack.Screen name="Details" component={Details} />
+                    <Stack.Screen name="Gerenciamento" component={Gerenciamento}/>
                 </>
             ) : (
                 <Stack.Screen name="Login" component={Login}></Stack.Screen>
@@ -72,7 +75,7 @@ const AppTab = () => {
                 )
             }} />
 
-            <Tab.Screen name="User" component={Login} options={{
+            <Tab.Screen name="User" component={User} options={{
                 tabBarIcon: ({ color, size }) => (
                     <Ionicons name="person" color={color} size={size} />
                 )

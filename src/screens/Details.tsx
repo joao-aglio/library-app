@@ -18,7 +18,7 @@ const Details = (props: AppNavigationType) => {
                 name: res.data.data.name,
                 author: res.data.data.author,
                 category: res.data.data.category.description,
-                description: "Teste",
+                description: res.data.data.description,
                 cover: res.data.data.image_url
             });
         })

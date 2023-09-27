@@ -70,6 +70,7 @@ const BookCreate = (props: BookProps) => {
                 <Input label="Autor" onChangeText={author => handleChange('author', author)} />
                 <Input label="Editora" onChangeText={publisher_id => handleChange('publisher_id', publisher_id)} />
                 <Input label="Categoria" onChangeText={category_id => handleChange('category_id', category_id)} />
+                <Input label="Descrição" onChangeText={description => handleChange('description', description)} />
                 <Button onPress={handleClick} name="CADASTRAR LIVRO"></Button>
             </View>
         </View>
