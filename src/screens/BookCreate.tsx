@@ -1,5 +1,5 @@
 import * as ImagePicker from "expo-image-picker";
-import { View, TouchableOpacity } from "react-native";
+import { View, TouchableOpacity, ScrollView } from "react-native";
 import Input from "../components/Input";
 import Button from "../components/Button";
 import { Ionicons } from '@expo/vector-icons';
@@ -9,9 +9,25 @@ import { useCallback, useState } from "react";
 import Book from "../components/Book";
 import { AppNavigationType } from "../types/AppNavigationType";
 
+interface BookType {
+    name: string,
+    publisher_id: number,
+    category_id: number,
+    author: string,
+    publish_date: string
+}
+
 const BookCreate = (props: AppNavigationType) => {
 
-    const [book, setBook] = useState<object>();
+    const initValue:BookType = {
+        name: "",
+        publisher_id: 0,
+        category_id: 0,
+        author: "",
+        publish_date: ""
+    }
+
+    const [book, setBook] = useState<BookType>(initValue);
     const [image, setImage] = useState<string>();
     const [publishers, setPublishers] = useState([]);
     const [categories, setCategories] = useState([]);
@@ -57,20 +73,19 @@ const BookCreate = (props: AppNavigationType) => {
             data.append(key, book[key]);
         });
 
-        data.append("publish_date", '2022-02-02');
-
         api.post('books', data)
             .then((res) => {
                 alert("Cadastrado com sucesso!");
+                props.navigation.navigate("Home");
             })
             .catch((err) => {
-                alert("Erro!");
-                console.log(err);
+                alert("Erro!\n" + err.response.data.message);
             });
     }
 
     function handleChange(key: string, value: string | number | Date) {
         setBook({ ...book, [key]: value });
+        console.log(book);
     }
 
     async function pickImage() {
@@ -80,14 +95,15 @@ const BookCreate = (props: AppNavigationType) => {
             mediaTypes: ImagePicker.MediaTypeOptions.Images,
         });
         setImage(pickerResult.assets[0].uri);
+    
 
     }
 
     return (
-        <View className="flex flex-column h-screen justify-center">
+        <ScrollView className="flex flex-column h-screen">
             <View className="flex items-center justify-center my-3">
-                <TouchableOpacity onPress={pickImage} className="w-[120px] h-[200px] border-solid border rounded-xl border-gray-600	flex items-center justify-center">
-                    {image ? <Book coverUrl={image}></Book>
+                <TouchableOpacity onPress={pickImage} className="w-[130px] h-[200px] border-solid border rounded-xl border-gray-600	flex items-center justify-center">
+                    {image ? <Book className="rounded-xl" width={130} height={200} coverUrl={image}></Book>
                         : <Ionicons name="add"></Ionicons>
                     }
                 </TouchableOpacity>
@@ -99,10 +115,15 @@ const BookCreate = (props: AppNavigationType) => {
                 <Input label="Editora" isSelect={true} selectValues={publishers} onValueChange={(value, i) => { handleChange('publisher_id', value) }} />
                 <Input label="Categoria" isSelect={true} selectValues={categories} onValueChange={(value, i) => { handleChange('category_id', value) }} />
                 <Input label="Descrição" onChangeText={description => handleChange('description', description)} />
-                <Input label="Data de publicação" isDate={true} onConfirm={(date:Date) => { handleChange("publish_date", date)}}/>
+
+                <Input label="Data de publicação" isDate={true}  
+                    date={book.publish_date === "" ? new Date() : new Date(book.publish_date)} 
+                    onChange={(e, date:Date) => { handleChange("publish_date", new Date(date).toISOString().split('T')[0])}}
+                />
+                
                 <Button onPress={handleClick} name="CADASTRAR LIVRO"></Button>
             </View>
-        </View>
+        </ScrollView>
     );
 }
 

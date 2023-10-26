@@ -13,7 +13,7 @@ const BookDetails = (props: BookDetailsProp) => {
     return (
         
         <TouchableOpacity onPress={props.onPress} className='flex flex-row mb-5'>
-          <Book coverUrl={props.coverUrl} />
+          <Book width={80} height={120} coverUrl={props.coverUrl} />
           <View className="flex flex-column w-[4em] gap ml-2">
             <Text className='font-bold'>{props.title}</Text>
             <Text className='mt-1 text-[#808080]'>{props.author}</Text>

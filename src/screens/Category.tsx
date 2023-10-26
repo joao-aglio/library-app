@@ -13,6 +13,7 @@ const Category = (props: AppNavigationType) => {
         api.post('categories', category).
         then((res) => {
             alert("Cadastrado com sucesso!");
+            props.navigation.navigate("Home");
         })
         .catch((err) => {
             alert("Erro!");

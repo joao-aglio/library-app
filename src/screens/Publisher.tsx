@@ -13,6 +13,7 @@ const Publisher = (props: AppNavigationType) => {
         api.post('publishers', publisher).
         then((res) => {
             alert("Cadastrado com sucesso!");
+            props.navigation.navigate("Home");
         })
         .catch((err) => {
             alert("Erro!");
