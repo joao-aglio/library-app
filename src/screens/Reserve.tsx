@@ -5,17 +5,24 @@ import Button from "../components/Button";
 import api from "../services/api";
 import { BookType, initValue } from "../types/BookType";
 import { AppNavigationType } from "../types/AppNavigationType";
+import Input from "../components/Input";
 
 const Reserve = (props: AppNavigationType) => {
 
     const [book, setBook] = useState<BookType>(initValue);
+    const [reserveDate, setReserveDate] = useState<string>('2023-01-01');
     
     function handleClick(id: number){
-        api.post("reserves", { books: [id]})
+        api.post("reserves", { books: [id], reserve_until: reserveDate})
         .then(res => {
             alert("Livro reservado com sucesso!");
             props.navigation.navigate("Home");
         })
+    }
+
+    function handleChange(data: string){
+        setReserveDate(data);
+        console.log(reserveDate);
     }
 
     useEffect(() =>{
@@ -52,6 +59,14 @@ const Reserve = (props: AppNavigationType) => {
                 <Text className="mt-4">
                     {book.description}
                 </Text>
+
+                <View className="mt-3">
+                    <Input label="Reservar até:" isDate={true}  
+                        date={reserveDate === "" ? new Date() : new Date(reserveDate)} 
+                        onChange={(e, date:Date) => { handleChange(new Date(date).toISOString().split('T')[0])}}
+                    />
+                </View>
+
             </View>
 
             <Button onPress={(e) => { handleClick(props.route.params.id) }} name="RESERVAR"></Button>
