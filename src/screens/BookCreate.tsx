@@ -24,7 +24,7 @@ const BookCreate = (props: AppNavigationType) => {
         publisher_id: 0,
         category_id: 0,
         author: "",
-        publish_date: ""
+        publish_date: "2023-02-02"
     }
 
     const [book, setBook] = useState<BookType>(initValue);
@@ -79,7 +79,7 @@ const BookCreate = (props: AppNavigationType) => {
                 props.navigation.navigate("Home");
             })
             .catch((err) => {
-                alert("Erro!\n" + err.response.data.message);
+                alert("Error!\n" + err.response.data.message);
             });
     }
 
@@ -96,7 +96,6 @@ const BookCreate = (props: AppNavigationType) => {
         });
         setImage(pickerResult.assets[0].uri);
     
-
     }
 
     return (
