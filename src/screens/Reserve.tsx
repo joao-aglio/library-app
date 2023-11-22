@@ -5,32 +5,37 @@ import Button from "../components/Button";
 import api from "../services/api";
 import { BookType, initValue } from "../types/BookType";
 import { AppNavigationType } from "../types/AppNavigationType";
+import Input from "../components/Input";
 
 const Reserve = (props: AppNavigationType) => {
 
     const [book, setBook] = useState<BookType>(initValue);
-    
-    function handleClick(id: number){
-        api.post("reserves", { books: [id]})
-        .then(res => {
-            alert("Livro reservado com sucesso!");
-            props.navigation.navigate("Home");
-        })
+
+    function handleClick(id: number) {
+        api.post("reserves", { books: [id] })
+            .then(res => {
+                alert("Livro reservado com sucesso!");
+                props.navigation.navigate("Home");
+            })
     }
 
-    useEffect(() =>{
+    function handleChange(nome: string, date: Date) {
+
+    }
+
+    useEffect(() => {
 
         api.get(`books/${props.route.params.id}`)
-        .then((res) => {
-            setBook({
-                name: res.data.data.name,
-                author: res.data.data.author,
-                category: res.data.data.category.description,
-                description: res.data.data.description,
-                cover: res.data.data.image_url
-            });
-        })
-        .catch();
+            .then((res) => {
+                setBook({
+                    name: res.data.data.name,
+                    author: res.data.data.author,
+                    category: res.data.data.category.description,
+                    description: res.data.data.description,
+                    cover: res.data.data.image_url
+                });
+            })
+            .catch();
 
     }, [props.route.params.id])
 
@@ -52,10 +57,14 @@ const Reserve = (props: AppNavigationType) => {
                 <Text className="mt-4">
                     {book.description}
                 </Text>
+
+                <Input isDate={true} label="Reservar até"
+                    date={!book.reserveUntil ? new Date() : new Date(book.reserveUntil)}
+                    onChange={(e, date: Date) => { handleChange("reserveUntil", new Date(date)) }} />
             </View>
 
             <Button onPress={(e) => { handleClick(props.route.params.id) }} name="RESERVAR"></Button>
-            
+
         </View>
     );
 };

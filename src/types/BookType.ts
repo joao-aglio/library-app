@@ -3,7 +3,8 @@ export interface BookType {
     category: string,
     description: string,
     author: string,
-    cover: string
+    cover: string,
+    reserveUntil?: Date
 }
 
 export const initValue:BookType = {

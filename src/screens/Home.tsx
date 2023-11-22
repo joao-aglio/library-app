@@ -58,4 +58,3 @@ const Home = (props: AppNavigationType) => {
 }
 
 export default Home;
-
