@@ -15,10 +15,11 @@ import User from '../screens/User';
 import Admin from '../screens/Admin';
 import SplashScreen from '../screens/SplashScreen';
 import { View } from 'react-native';
+import { AppNavigationType } from '../types/AppNavigationType';
 
 const Tab = createBottomTabNavigator();
 
-const Stack = () => {
+const Stack = (props: AppNavigationType) => {
 
     useEffect(() => {
         checkAuth();
@@ -34,6 +35,7 @@ const Stack = () => {
             })
             .catch(err => {
                 setIsLogged(false);
+                props.navigation.navigate('Login');
             })
             .finally(() => {
                 setIsLoading(false);
@@ -60,7 +62,7 @@ const Stack = () => {
             ),
             headerTitleAlign: 'center'
         }}>
-            {isLogged ? (
+            {
                 <>
                     <Stack.Screen name="Tab" component={AppTab}></Stack.Screen>
                     <Stack.Screen name="Category" component={Category} />
@@ -69,10 +71,12 @@ const Stack = () => {
                     <Stack.Screen name="Book" component={BookCreate} />
                     <Stack.Screen name="Details" component={Details} />
                     <Stack.Screen name="Gerenciamento" component={Admin} />
-                </>
-            ) : (
+                
+            
                 <Stack.Screen name="Login" component={Login}></Stack.Screen>
-            )}
+
+                </>
+            }
 
         </Stack.Navigator>
     );

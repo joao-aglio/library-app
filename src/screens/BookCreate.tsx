@@ -29,6 +29,8 @@ const BookCreate = (props: AppNavigationType) => {
 
     const [book, setBook] = useState<BookType>(initValue);
     const [image, setImage] = useState<string>();
+    const [imageData, setImageData] = useState<string>();
+
     const [publishers, setPublishers] = useState([]);
     const [categories, setCategories] = useState([]);
 
@@ -63,17 +65,17 @@ const BookCreate = (props: AppNavigationType) => {
     );
 
     async function handleClick() {
-        const data = new FormData();
-        const response = await fetch(image);
-        const blob = await response.blob();
 
-        data.append('cover', blob, 'teste');
+        const data = new FormData();
 
         Object.keys(book).forEach(key => {
             data.append(key, book[key]);
         });
 
-        api.post('books', data)
+
+        data.append('cover', imageData);
+
+        api.post('books', data, { headers: {"Content-Type": "multipart/form-data"}})
             .then((res) => {
                 alert("Cadastrado com sucesso!");
                 props.navigation.navigate("Home");
@@ -92,9 +94,10 @@ const BookCreate = (props: AppNavigationType) => {
 
         let pickerResult = await ImagePicker.launchImageLibraryAsync({
             quality: 1,
-            mediaTypes: ImagePicker.MediaTypeOptions.Images,
+            base64: true
         });
         setImage(pickerResult.assets[0].uri);
+        setImageData(pickerResult.assets[0].base64);
     
     }
 

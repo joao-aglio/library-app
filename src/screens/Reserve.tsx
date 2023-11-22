@@ -6,7 +6,6 @@ import api from "../services/api";
 import { BookType, initValue } from "../types/BookType";
 import { AppNavigationType } from "../types/AppNavigationType";
 import Input from "../components/Input";
-import Input from "../components/Input";
 
 const Reserve = (props: AppNavigationType) => {
 
@@ -24,15 +23,6 @@ const Reserve = (props: AppNavigationType) => {
     function handleChange(data: string){
         setReserveDate(data);
         console.log(reserveDate);
-    }
-
-    function handleChange(data: string){
-        setReserveDate(data);
-        console.log(reserveDate);
-    }
-
-    function handleChange(nome: string, date: Date) {
-
     }
 
     useEffect(() => {
