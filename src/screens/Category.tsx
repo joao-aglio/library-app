@@ -17,6 +17,8 @@ const Category = (props: AppNavigationType) => {
         })
         .catch((err) => {
             alert("Erro!");
+            props.navigation.navigate('Login');
+
         });
     }
 

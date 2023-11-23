@@ -42,10 +42,10 @@ const Reserve = (props: AppNavigationType) => {
     }, [props.route.params.id])
 
     return (
-        <View className="flex flex-column h-screen justify-center mx-5">
+        <View className="flex flex-column mt-5 justify-center mx-5">
 
             <View className="flex justify-center items-center mb-5">
-                <Book width={130} height={200} coverUrl={book.cover}></Book>
+                <Book width={230} height={350} coverUrl={book.cover}></Book>
             </View>
             <View className="flex flex-col bg-[#c2eef8] p-3 rounded-xl">
                 <View className="flex flex-row justify-between">

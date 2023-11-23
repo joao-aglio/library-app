@@ -33,6 +33,11 @@ const Login = (props: AppNavigationType) => {
                 <Input label="User" onChangeText={(username) => {handleChange('username', username)}}/>
                 <Input label="Password" onChangeText={(password) => {handleChange('password', password)}}/>
                 <Button name="LOGAR" onPress={handleClick}></Button>
+
+                <View className="mt-5">
+                    <Button name="Cadastrar-se" onPress={(e) => {props.navigation.navigate("SingUp")}}></Button>
+
+                </View>
             </View>
         </ScrollView>
     );

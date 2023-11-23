@@ -6,6 +6,9 @@ import { AppNavigationType } from "../types/AppNavigationType";
 import { View, Image, Text, Touchable, TouchableOpacity } from "react-native";
 import UserInfo from "../components/UserInfo";
 import Button from "../components/Button";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { StackActions } from '@react-navigation/native';
+
 
 const User = (props: AppNavigationType) => {
 
@@ -28,6 +31,11 @@ const User = (props: AppNavigationType) => {
             });
     }, []));
 
+    async function handleLogout(e){
+        await AsyncStorage.setItem('token', "");
+        props.navigation.navigate('Login');
+    }
+
     return (
         <View className="flex h-screen mt-3 text-left">
             <View className="flex items-center">
@@ -47,6 +55,9 @@ const User = (props: AppNavigationType) => {
 
                 ) : void (0)
             }
+
+            <Button onPress={handleLogout} name="LOGOUT"></Button>
+
 
         </View>
     );

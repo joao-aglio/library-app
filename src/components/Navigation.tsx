@@ -16,6 +16,7 @@ import Admin from '../screens/Admin';
 import SplashScreen from '../screens/SplashScreen';
 import { View } from 'react-native';
 import { AppNavigationType } from '../types/AppNavigationType';
+import SingUp from '../screens/SingUp';
 
 const Tab = createBottomTabNavigator();
 
@@ -71,6 +72,8 @@ const Stack = (props: AppNavigationType) => {
                     <Stack.Screen name="Book" component={BookCreate} />
                     <Stack.Screen name="Details" component={Details} />
                     <Stack.Screen name="Gerenciamento" component={Admin} />
+                    <Stack.Screen name="SingUp" component={SingUp} />
+
                 
             
                 <Stack.Screen name="Login" component={Login}></Stack.Screen>

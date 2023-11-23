@@ -16,11 +16,19 @@ const Home = (props: AppNavigationType) => {
             api.get("books")
                 .then((res) => {
                     setBooks(res.data.data);
-                });
+                })
+                .catch(res =>{
+                    props.navigation.navigate('Login');
+
+                });;
 
             api.get("reserves")
                 .then((res) => {
                     setReserves(res.data.mybooks);
+                })
+                .catch(res =>{
+                    props.navigation.navigate('Login');
+
                 });
         }, [])
     );

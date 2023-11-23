@@ -10,7 +10,8 @@ interface InputProps {
     onValueChange?: (itemValue: string | number, itemIndex: number) => void,
     isDate?: boolean,
     onChange?: (event: DateTimePickerEvent, date?: Date) => void,
-    date?: Date
+    date?: Date,
+    selectedValue?: any
 };
 
 interface ItemProps {
@@ -26,7 +27,7 @@ const Input = (props: InputProps) => {
             {
             props.isSelect ? 
 
-                <Picker onValueChange={props.onValueChange} style={{paddingTop: 9, paddingBottom: 9, borderRadius: 4,borderColor:"#E5E7EB",borderStyle:"solid",backgroundColor:"#ffffff"}}>
+                <Picker onValueChange={props.onValueChange} selectedValue={props.selectedValue} itemStyle={{height: 50}} style={{paddingTop: 9, paddingBottom: 9, borderRadius: 4,borderColor:"#E5E7EB",borderStyle:"solid",backgroundColor:"#ffffff"}}>
                     <Picker.Item label="Selecione..."></Picker.Item>
                     {props.selectValues.map((item: ItemProps) => {
                         return <Picker.Item label={item.name} value={item.id}></Picker.Item>

@@ -1,5 +1,5 @@
 import * as ImagePicker from "expo-image-picker";
-import { View, TouchableOpacity, ScrollView } from "react-native";
+import { View, TouchableOpacity, ScrollView, KeyboardAvoidingView, Platform } from "react-native";
 import Input from "../components/Input";
 import Button from "../components/Button";
 import { Ionicons } from '@expo/vector-icons';
@@ -19,7 +19,7 @@ interface BookType {
 
 const BookCreate = (props: AppNavigationType) => {
 
-    const initValue:BookType = {
+    const initValue: BookType = {
         name: "",
         publisher_id: 0,
         category_id: 0,
@@ -47,6 +47,7 @@ const BookCreate = (props: AppNavigationType) => {
                 })
                 .catch(err => {
                     console.log(err);
+                    props.navigation.navigate('Login');
                 });
 
             api.get('categories')
@@ -60,6 +61,8 @@ const BookCreate = (props: AppNavigationType) => {
                 })
                 .catch(err => {
                     console.log(err);
+                    props.navigation.navigate('Login');
+
                 });
         }, [])
     );
@@ -75,13 +78,15 @@ const BookCreate = (props: AppNavigationType) => {
 
         data.append('cover', imageData);
 
-        api.post('books', data, { headers: {"Content-Type": "multipart/form-data"}})
+        api.post('books', data, { headers: { "Content-Type": "multipart/form-data" } })
             .then((res) => {
                 alert("Cadastrado com sucesso!");
                 props.navigation.navigate("Home");
             })
             .catch((err) => {
                 alert("Error!\n" + err.response.data.message);
+                props.navigation.navigate('Login');
+
             });
     }
 
@@ -98,34 +103,46 @@ const BookCreate = (props: AppNavigationType) => {
         });
         setImage(pickerResult.assets[0].uri);
         setImageData(pickerResult.assets[0].base64);
-    
+
     }
 
     return (
-        <ScrollView className="flex flex-column h-screen">
-            <View className="flex items-center justify-center my-3">
-                <TouchableOpacity onPress={pickImage} className="w-[130px] h-[200px] border-solid border rounded-xl border-gray-600	flex items-center justify-center">
-                    {image ? <Book className="rounded-xl" width={130} height={200} coverUrl={image}></Book>
-                        : <Ionicons name="add"></Ionicons>
-                    }
-                </TouchableOpacity>
-            </View>
+        <KeyboardAvoidingView behavior={Platform.OS == "ios" ? "padding" : "height"} style={{ flex: 1 }}>
 
-            <View className="bg-[#c2eef8] flex px-2 py-2">
-                <Input label="Nome" onChangeText={name => handleChange('name', name)} />
-                <Input label="Autor" onChangeText={author => handleChange('author', author)} />
-                <Input label="Editora" isSelect={true} selectValues={publishers} onValueChange={(value, i) => { handleChange('publisher_id', value) }} />
-                <Input label="Categoria" isSelect={true} selectValues={categories} onValueChange={(value, i) => { handleChange('category_id', value) }} />
-                <Input label="Descrição" onChangeText={description => handleChange('description', description)} />
+            <ScrollView className="flex flex-column h-screen">
+                <View className="flex items-center justify-center my-3">
+                    <TouchableOpacity onPress={pickImage} className="w-[130px] h-[200px] border-solid border rounded-xl border-gray-600	flex items-center justify-center">
+                        {image ? <Book className="rounded-xl" width={130} height={200} coverUrl={image}></Book>
+                            : <Ionicons name="add"></Ionicons>
+                        }
+                    </TouchableOpacity>
+                </View>
 
-                <Input label="Data de publicação" isDate={true}  
-                    date={book.publish_date === "" ? new Date() : new Date(book.publish_date)} 
-                    onChange={(e, date:Date) => { handleChange("publish_date", new Date(date).toISOString().split('T')[0])}}
-                />
-                
-                <Button onPress={handleClick} name="CADASTRAR LIVRO"></Button>
-            </View>
-        </ScrollView>
+                <View className="bg-[#c2eef8] flex px-2 py-2">
+
+                    <Input label="Nome" onChangeText={name => handleChange('name', name)} />
+
+                    <Input label="Autor" onChangeText={author => handleChange('author', author)} />
+
+                    <Input label="Editora" isSelect={true} selectValues={publishers} selectedValue={book.publisher_id}
+                        onValueChange={(value, i) => { handleChange('publisher_id', value) }} />
+
+                    <Input label="Categoria" isSelect={true} selectValues={categories} selectedValue={book.category_id}
+                        onValueChange={(value, i) => { handleChange('category_id', value) }} />
+
+                    <Input label="Descrição" onChangeText={description => handleChange('description', description)} />
+
+                    <Input label="Data de publicação" isDate={true}
+                        date={book.publish_date === "" ? new Date() : new Date(book.publish_date)}
+                        onChange={(e, date: Date) => { handleChange("publish_date", new Date(date).toISOString().split('T')[0]) }}
+                    />
+
+                    <Button onPress={handleClick} name="CADASTRAR LIVRO"></Button>
+
+                </View>
+            </ScrollView>
+        </KeyboardAvoidingView>
+
     );
 }
 
